@@ -1,0 +1,85 @@
+* {
+
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    place-content: center;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    min-height: 500px;
+    width: fit-content;
+    place-content: center;
+}
+
+.input-form {
+    width: 400px;
+    min-height: 500px;
+    border-radius: 16px;
+}
+
+h2 {
+    padding: 16px;
+    background-color: palegoldenrod;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+input[type="text"] {
+    width: 300px;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: palegreen;
+    margin-bottom: 20px;
+    
+}
+input[type="text"] :active :focus {
+    border: none;
+    outline: none;
+
+}
+
+input[type="file"] {
+    width: 200px;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: palegreen;
+    
+}
+
+button[type="submit"] {
+    padding: 16px;
+    background-color: palegreen;
+    margin-top: 20px;
+    border: 10px;
+    width: fit-content;
+}
+button[type="submit"] :hover {
+    cursor: pointer;
+    background-color: palegoldenrod;
+}
+
+a {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: palegoldenrod;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+
+

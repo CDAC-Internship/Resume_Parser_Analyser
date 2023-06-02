@@ -1,0 +1,407 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Document</title> -->
+
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+    <link rel="stylesheet" href="../static/index.css">
+    <script src="{% static 'index.js' %}" defer></script>
+</head>
+<body>
+    <!-- {% url 'resume_parser_app:uploads' %} -->
+    <div class="container">
+        <h2>Welcome to resume analyser</h2>
+
+        {% if not txt %}
+        <div class="input-form">
+            <form action="{% url 'resume_parser_app:uploads' %}" method="POST" enctype="multipart/form-data" id="form">
+              <label for="">Enter job discription</label>  
+              <textarea name="jd" id="" cols="20" rows="10" placeholder="Enteer the job description here"></textarea>
+              <label > file name </label>
+                <input type="text" name="filename"  placeholder="enter your file name" id = "filename">
+                <input type="file" multiple name="file_uploads" id="file_up">
+                {% csrf_token %}
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+        {% else %}
+        
+            <!-- {{ res }}
+            {{ txt }}
+            {{ next_line }}
+            
+            {% for obj in res %}
+            <p>{{ obj }}</p>
+            {% endfor %} -->
+            <!-- {{txt}} -->
+
+            <a href="{% url 'resume_parser_app:json' %}">Export json</a>
+            <a href="{% url 'resume_parser_app:csv' %}">Export csv</a>
+            <a href="{% url 'resume_parser_app:xlsx' %}">Export Excel</a>
+
+    
+        {% endif %}
+    </div>
+</body>
+</html>
+<!-- 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Parser</title>
+  <style>
+    /* Add your custom styles here */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+    }
+    
+    form {
+      margin-bottom: 20px;
+    }
+    
+    input[type="file"] {
+      display: none;
+    }
+    
+    label {
+      display: inline-block;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+    
+    .file-name {
+      display: inline-block;
+      margin-left: 10px;
+    }
+    
+    .result {
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    
+    pre {
+      white-space: pre-wrap;
+    }
+    
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      
+      .container {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Resume Parser</h1>
+    <form id="resumeForm" enctype="multipart/form-data" method="POST" action="">
+      <label for="resumeFile">Upload Resume</label>
+      {% csrf_token %}
+      <span id="token">{{ csrf_token }}</span>
+      <input type="text" name="filename" placeholder="Enter the filename" id="">
+      <input type="file" id="resumeFile" name="file_uploads" accept=".pdf,.doc,.docx">
+      <span class="file-name"></span>
+      <button type="submit">Submit</button>
+    </form>
+    <div class="result" id="resultContainer"></div>
+  </div>
+
+  <script>
+    // Function to update the displayed file name
+    function updateFileName() {
+      const fileInput = document.getElementById('resumeFile');
+      const fileNameContainer = document.querySelector('.file-name');
+      fileNameContainer.textContent = fileInput.files[0]?.name || '';
+    }
+
+    // Event listener for file input change
+    document.getElementById('resumeFile').addEventListener('change', updateFileName);
+
+    // Event listener for form submission
+    document.getElementById('resumeForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const fileInput = document.getElementById('resumeFile');
+      if (!fileInput.files.length) {
+        return; // No file selected
+      }
+
+      const file = fileInput.files[0];
+
+      // You can use the 'file' variable to send the file to your server for parsing
+
+      // Example AJAX request to send the file to a server endpoint
+      const formData = new FormData();
+      formData.append('resume', file);
+      const token = document.getElementById("token").value ;
+      formData.append("X-CSRFToken", token) ;
+      fetch('http://localhost:8000/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        // Display the parsing result
+        document.getElementById('resultContainer').innerHTML = '<pre>' + data + '</pre>';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+  </script>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="main.css"> -->
+    <!-- <script src="main.js" defer ></script> -->
+    <!-- <title>JS Formatter</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #333333;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 100px 1fr;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+            padding: 20px;
+            background: #333333;
+            gap: 20px;
+        }
+
+        .large-area {
+            height: 100%;
+            padding: 16px;
+            color: #aaa;
+            background: #444;
+            box-sizing: border-box;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: monospace;
+            transition: background 0.25s, color 0.25s ;
+        }
+
+        .large-area:hover,
+        .large-area:focus {
+            background: #4a4a4a;
+        }
+
+        .large-area:focus {
+            color: #eee;
+        }
+
+        .control_buttons{
+            padding: 8px 14px;
+            font: monospace;
+            color: #fff;
+            /* background: linear-gradient(90deg,#12c2e9,#c471ed,#f7797d); */
+            /* background: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%); */
+            /* background: linear-gradient(to right, #fffbd5, #b20a2c); */
+            /* background: linear-gradient(to right, #00b9db, #0083b0); */
+            background: linear-gradient(to right, #00b4db, #0083b0);
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            outline: none;
+            font-family: "Roboto",sans-serif;
+            text-shadow: #444;
+        }
+
+        .control_buttons:active{
+            background : linear-gradient(to right,#00badba8,#0084b0b0);
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+         <textarea class="large-area large-area--input" placeholder="Enter the json here..."></textarea> -->
+        <!-- {% url 'resume_parser_app:uploads' %} -->
+        <!-- <form action="{% url 'resume_parser_app:uploads' %}" method="POST" enctype="multipart/form-data" id="form">
+            <input type="text" name="filename"  placeholder="enter your file name" id="filename" ><br>
+            <input type="file" multiple name="file_uploads" id = "file_up" >
+            {% csrf_token %}
+            <button type="submit" class="onSubmit">Upload</button>
+        </form>
+
+            <div class="controls">
+                
+                <button type="button" class="control_buttons control_buttons--format">Get result</button>
+                <button type="button" class="control_buttons control_buttons--minify">Minify</button>
+            </div>
+        <textarea readonly class="large-area large-area--output" placeholder="Formated json here..."></textarea>
+    </div> -->
+    <!-- <script>
+
+        // the input and output fields
+        const input_area = document.querySelector(".large-area--input");
+        const output_area = document.querySelector(".large-area--output");
+        const submit_btn = document.querySelector(".onSubmit") ;
+        const form = document.getElementById("form") ;
+        // buttons
+        const format_btn = document.querySelector(".control_buttons--format");
+        const minify_btn = document.querySelector(".control_buttons--minify");
+
+        form.addEventListener("submit", (e) => {
+        // form.addEventListener('submit', (e) => {
+            e.preventDefault() ;
+            const url = "http://127.0.0.1:8000/upload" ;
+           
+            const filename = document.getElementById("filename") ;
+            const file_uploads = document.getElementById("file_up") ;
+            
+
+            console.log(`----------
+            
+            ${form}
+            
+            -----------`)
+            // let data = new FormData();
+            // data.append('file', file);;
+            // data.append('fileName', file.name);
+            // // add form input from hidden input elsewhere on the page
+            // data.append('csrfmiddlewaretoken', $('#csrf-helper input[name="csrfmiddlewaretoken"]').attr('value'));
+            // fetch("/upload/", {
+            //     method: 'POST',
+            //     body: data,
+            //     credentials: 'same-origin',
+            // })
+            
+    
+            // let response = fetch("/upload/", {
+                //     method: 'POST',
+            //     body: JSON.stringify(data),
+            //     headers: { "X-CSRFToken": csrftoken },
+            // })
+
+            // The following function are copying from 
+            // https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            // console.log(`file name = ${filename.value}\nfile_uploads = ${file_uploads.files}`) ;
+
+            console.log(`
+            -----------------------
+            ${file_uploads.files}
+            -----------------------
+            `)
+            const data = {
+                "filename" : filename.value ,
+                "file_uploads" : file_uploads.files
+            };
+            let csrftoken = getCookie('csrftoken');
+            
+        
+            // data.append('csrfmiddlewaretoken', $('#csrf-helper input[name="csrfmiddlewaretoken"]').attr('value'));
+            
+            // {
+            //     "filename" : filename.value ,
+            //     "file_uploads" : file_uploads.value 
+            // }
+
+            const req = {
+                method : "POST",
+                body : JSON.stringify(data),
+                headers: { "X-CSRFToken": csrftoken },
+            }
+            console.log(csrftoken) ;
+            console.log(req) ;
+            fetch (url, req) 
+                .then((res) => {
+                    return res.json() ;
+                })
+                .then(data => console.log(data) )
+                .catch(error => console.error('Error:', error));
+            
+            console.log("-------------- upload request --------------") ;
+        })
+
+        format_btn.addEventListener("click", () => {
+
+            console.log("----------- in get data -------------")
+            // "4" is indentation
+            const url = "http://127.0.0.1:8000/results" ;
+            data = "not received"
+            fetch(url) 
+                .then((res) => {
+                    return res.json() ;
+                })
+                .then((d) => {
+                    data = d ;
+                })
+                .catch(error => console.error('Error:', error));
+            console.log(data)
+            const formated_text = JSON.stringify(JSON.parse(data),null,4);
+
+            // output formatted text
+            output_area.value = formated_text ;
+        })
+
+        minify_btn.addEventListener("click", () => {
+
+            const minified_text = JSON.stringify(JSON.parse(input_area.value));
+
+            // Output the minified text
+            output_area.value = minified_text ;
+        })
+
+    </script> -->
+<!-- 
+</body>
+</html>  -->

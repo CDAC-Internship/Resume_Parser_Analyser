@@ -1,0 +1,155 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{% url 'resume_parser_app:uploads' %}" method="POST" enctype="multipart/form-data">
+        <input type="text" name="filename"  placeholder="enter your file name" >
+        <input type="file" multiple name="file_uploads" >
+        {% csrf_token %}
+        <button type="submit">Upload</button>
+    </form>
+    
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="main.css"> -->
+    <!-- <script src="main.js" defer ></script> -->
+    <title>JS Formatter</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #333333;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 100px 1fr;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+            padding: 20px;
+            background: #333333;
+            gap: 20px;
+        }
+
+        .large-area {
+            height: 100%;
+            padding: 16px;
+            color: #aaa;
+            background: #444;
+            box-sizing: border-box;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: monospace;
+            transition: background 0.25s, color 0.25s ;
+        }
+
+        .large-area:hover,
+        .large-area:focus {
+            background: #4a4a4a;
+        }
+
+        .large-area:focus {
+            color: #eee;
+        }
+
+        .control_buttons{
+            padding: 8px 14px;
+            font: monospace;
+            color: #fff;
+            /* background: linear-gradient(90deg,#12c2e9,#c471ed,#f7797d); */
+            /* background: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%); */
+            /* background: linear-gradient(to right, #fffbd5, #b20a2c); */
+            /* background: linear-gradient(to right, #00b9db, #0083b0); */
+            background: linear-gradient(to right, #00b4db, #0083b0);
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            outline: none;
+            font-family: "Roboto",sans-serif;
+            text-shadow: #444;
+        }
+
+        .control_buttons:active{
+            background : linear-gradient(to right,#00badba8,#0084b0b0);
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <!-- <textarea class="large-area large-area--input" placeholder="Enter the json here..."></textarea> -->
+        <form action="{% url 'resume_parser_app:uploads' %}" method="POST" enctype="multipart/form-data" target="_blank">
+            <input type="text" name="filename"  placeholder="enter your file name" >
+            <input type="file" multiple name="file_uploads" >
+            {% csrf_token %}
+            <button type="submit">Upload</button>
+        </form>
+
+            <div class="controls">
+                
+                <button type="button" class="control_buttons control_buttons--format">Get result</button>
+                <button type="button" class="control_buttons control_buttons--minify">Minify</button>
+            </div>
+        <textarea readonly class="large-area large-area--output" placeholder="Formated json here..."></textarea>
+    </div>
+    <script>
+
+        // the input and output fields
+        const input_area = document.querySelector(".large-area--input");
+        const output_area = document.querySelector(".large-area--output");
+
+        // buttons
+        const format_btn = document.querySelector(".control_buttons--format");
+        const minify_btn = document.querySelector(".control_buttons--minify");
+
+        format_btn.addEventListener("click", () => {
+            // "4" is indentation
+            const url = "http://127.0.0.1:8000/results"
+            data = "not received"
+            fetch(url) 
+                .then((res) => {
+                    return res.json() ;
+                })
+                .then((d) => {
+                    data = d ;
+                })
+            const formated_text = JSON.stringify(JSON.parse(data),null,4);
+
+            // output formatted text
+            output_area.value = formated_text ;
+        })
+
+        minify_btn.addEventListener("click", () => {
+
+            const minified_text = JSON.stringify(JSON.parse(input_area.value));
+
+            // Output the minified text
+            output_area.value = minified_text ;
+        })
+
+    </script>
+
+</body>
+</html>
