@@ -1,5 +1,10 @@
 ## Resume Parser Analyser 
 
+- create seperate directory 
+```
+mkdir resume-parser-analyser
+```
+
 - [ ] initialise empty git repository  
 ```
 git init 
@@ -7,7 +12,7 @@ git init
 
 - [ ] clone the git repository using 
 ```
-git clone 
+git clone https://github.com/CDAC-Internship/Resume_Parser_Analyser.git .
 ```
 
 - [ ] Create a vertual environment
