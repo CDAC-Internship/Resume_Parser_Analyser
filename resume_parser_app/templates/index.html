@@ -6,27 +6,222 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <title>Document</title> -->
+    <title>Website</title>
 
-    <link rel="stylesheet" href="{% static 'index.css' %}">
-    <link rel="stylesheet" href="../static/index.css">
-    <script src="{% static 'index.js' %}" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            position: relative;
+            background-color: #007bff;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .heading {
+            font-size: 36px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+        }
+
+        .blue-strip {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: #007bff;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+
+        .filter-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .filter-chip {
+            display: flex;
+            align-items: center;
+            background-color: #007bff;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .filter-chip-label {
+            margin-right: 5px;
+        }
+
+        .filter-chip-cancel {
+            cursor: pointer;
+            margin-left: 5px;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+    </style>
 </head>
 <body>
-    <!-- {% url 'resume_parser_app:uploads' %} -->
     <div class="container">
-        <h2>Welcome to resume analyser</h2>
+        <div class="header">
+            <h1 class="heading">Welcome to Resume Analyzer</h1>
+            <div class="blue-strip"></div>
+        </div>
+
+        
+    
+
+
 
         {% if not txt %}
-        <div class="input-form">
+        <div class="form-container">
+          <h2>Resume Analyzer</h2>
+          <div class="container">
+            <div class="filter-container">
+                <h2>Job Description</h2>
+                <input type="text" id="filter-input" class="filter-input" placeholder="Enter Required Job Description">
+                <div class="filter-chips" id="filter-chips"></div>
+            </div>
+
+        </div>
+        <script>
+          // Add filter function
+          function addFilter() {
+              const filterInput = document.getElementById('filter-input');
+              const filterText = filterInput.value.trim();
+  
+              if (filterText !== '') {
+                  const filterChips = document.getElementById('filter-chips');
+  
+                  // Create filter chip
+                  const filterChip = document.createElement('div');
+                  filterChip.className = 'filter-chip';
+                  filterChip.innerHTML = `
+                      <span class="filter-chip-label">${filterText}</span>
+                      <span class="filter-chip-cancel" onclick="removeFilter(this)">x</span>
+                  `;
+  
+                  // Add filter chip to the container
+                  filterChips.appendChild(filterChip);
+  
+                  // Clear the filter input
+                  filterInput.value = '';
+              }
+          }
+  
+          // Remove filter function
+          function removeFilter(element) {
+              const filterChip = element.parentElement;
+              const filterChips = filterChip.parentElement;
+              filterChips.removeChild(filterChip);
+          }
+  
+          // Listen for Enter key press on the filter input
+          document.getElementById('filter-input').addEventListener('keydown', function(event) {
+              if (event.key === 'Enter') {
+                  event.preventDefault();
+                  addFilter();
+              }
+          });
+      </script>
             <form action="{% url 'resume_parser_app:uploads' %}" method="POST" enctype="multipart/form-data" id="form">
-              <label for="">Enter job discription</label>  
-              <textarea name="jd" id="" cols="20" rows="10" placeholder="Enteer the job description here"></textarea>
-              <label > file name </label>
-                <input type="text" name="filename"  placeholder="enter your file name" id = "filename">
-                <input type="file" multiple name="file_uploads" id="file_up">
-                {% csrf_token %}
-                <button type="submit">Upload</button>
+              <div class="form-group">
+                <label for="resume">Upload your resume:</label>
+                <input type="file" id="resume" name="resume" accept=".doc, .docx, .pdf" required>
+            </div>
+            
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="submit" value="Upload">
+            </div>
             </form>
         </div>
         {% else %}
@@ -49,6 +244,7 @@
     </div>
 </body>
 </html>
+
 <!-- 
 <!DOCTYPE html>
 <html>

@@ -12,6 +12,7 @@ import re
 import pandas as pd 
 
 
+
 # Create your views here.
 
 def index (req) :
